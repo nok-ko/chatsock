@@ -1,6 +1,6 @@
 {
     "name": "chatsock",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "the simplest p2p? chat client",
     "dependencies": {
         "express": "^4.17.1",
