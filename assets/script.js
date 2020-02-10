@@ -38,6 +38,8 @@ function parseCommand(msg) {
 
 function genericChat(nick, msg, isSuper) {
     let msgNode = document.createElement('li')
+    let shouldScroll = false
+    const mBox = document.querySelector('#messages')
 
     if (nick) {
         let nickNode = document.createElement('strong')
@@ -54,8 +56,14 @@ function genericChat(nick, msg, isSuper) {
     
     msgNode.appendChild(textNode)
     
-        
-    document.querySelector('#messages').appendChild(msgNode)
+    // check if we're scrolled to the bottom
+    if (mBox.scrollHeight - mBox.clientHeight <= mBox.scrollTop + 1)
+        shouldScroll = true
+    
+    mBox.appendChild(msgNode)
+    
+    if (shouldScroll)
+        msgNode.scrollIntoView()
 }
 
 const serverChat = (msg) => { console.log('sChat:', msg); genericChat('', msg, true) }

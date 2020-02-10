@@ -10,6 +10,7 @@ app.get('/', (req, res) => {
 app.use(express.static('assets')) // Scripts, Stylesheets & Such.
 
 nicks = {} // id -> nick
+// technically this is bad because really it's socket->nick... gonna be using cookies!
 
 io.on('connection', function(socket){
     console.log('[CONN]', 'user connected with IP:', socket.handshake.address, 'id:', socket.id)
