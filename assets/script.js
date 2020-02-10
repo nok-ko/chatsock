@@ -2,6 +2,14 @@
 // - Simon Peyton Jones
 const socket = io() 
 
+// #region DEBUG! Open a popup
+let ppcontent = document.createElement('p')
+ppcontent.innerText = 'oh no oh no oh no'
+let pp = openPopup('Hello!', ppcontent)
+setInterval(() => closePopup(pp), 1000)
+
+// #endregion
+
 // Listen for message box submissions:
 document.querySelector('form').addEventListener('submit', function(e){
 	e.preventDefault();    // Stop form from "actually" submitting
@@ -90,6 +98,27 @@ function genericChat(nick, msg, isSuper) {
 		msgNode.scrollIntoView()
 }
 
+// title: str, content: DOMElement
+function openPopup(title, content) {
+
+	popup = document.createElement('div')
+	popup.classList.add('popup')
+
+	titleElement = document.createElement('h1')
+	titleElement.innerText = title
+
+	popup.appendChild(titleElement)
+	popup.appendChild(content)
+
+	document.body.appendChild(popup)
+	return popup
+}
+
+function closePopup(popup) {
+	cl = popup.classList; 
+	cl.remove('popup')
+	cl.add('hide')
+}
 
 // serverChat uses an empty nick, the server is eternal & has no name
 const serverChat = (msg) => { console.log('sChat:', msg); genericChat('', msg, true) }
