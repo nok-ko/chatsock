@@ -1,0 +1,9 @@
+{
+    "name": "chatsock",
+    "version": "0.1",
+    "description": "the simplest p2p? chat client",
+    "dependencies": {
+        "express": "^4.17.1",
+        "socket.io": "^2.3.0"
+    }
+}
