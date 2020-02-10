@@ -1,7 +1,8 @@
 let socket = io() 
 
+// Listen for message box submissions:
 document.querySelector('form').addEventListener('submit', function(e){
-    e.preventDefault();    //stop form from submitting
+    e.preventDefault();    // Stop form from "actually" submitting
     msg = document.querySelector('#m').value
     
     if (msg.startsWith('!')){
@@ -15,6 +16,10 @@ document.querySelector('form').addEventListener('submit', function(e){
     clearMbox()
 })
 
+function clearMbox() {
+    document.querySelector('#m').value = '' // There may be a bug here.
+}
+
 function renick(args) {
     newNick = args.join(' ')
     console.log('renicking to', newNick)
@@ -23,7 +28,6 @@ function renick(args) {
 
 
 function parseCommand(msg) {
-//    console.log('parsing command', msg)
     const commands = {
         'nick': renick
     }
@@ -50,9 +54,8 @@ function genericChat(nick, msg, isSuper) {
     let textNode = document.createElement('span')
     textNode.innerText = msg
     
-    if (isSuper) {
+    if (isSuper)
         textNode.classList.add('superchat')
-    }
     
     msgNode.appendChild(textNode)
     
@@ -99,7 +102,3 @@ socket.on('nick-please', () => {
     socket.emit('new-nick', newNick)
     console.log('sent new nick', newNick)
 })
-
-function clearMbox() {
-    document.querySelector('#m').value = '' // There may be a bug here.
-}
