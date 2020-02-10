@@ -4,7 +4,7 @@
     box-sizing: border-box; 
 }
 
-body { font: 13px Helvetica, Arial; }
+body { height:100%; font: 13px Helvetica, Arial; }
 
 html,body { height: 100%; margin: 0px; padding: 0px; }
 
@@ -20,7 +20,7 @@ form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 
 
 #messages li:nth-child(odd) { background: #eee; }
 
-.grid-container { display:grid; grid-template-rows: 1fr, 0.05fr; size: 100%; height: 100%;}
+.grid-container { size: 100%; height: 100%; display:grid; grid-template-rows: 1fr 0.05fr;}
 
 .nick { margin-right: 1ch;}
 
