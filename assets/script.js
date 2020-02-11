@@ -136,10 +136,7 @@ function openNickPopup(title) {
 		document.body.appendChild(popup)
 	} else { // Otherwise, update the existing popup.
 		popup = document.querySelector('.popup')
-		children = Array.from(popup.childNodes)
-		children[0].innerText = title // the h1 title
-		// children.slice(1).forEach(e=>e.remove())
-		// popup.appendChild(content)
+		popup.childNodes.innerText = title // the h1 title
 		popup.classList.add('popup')
 		popup.classList.remove('hide')
 	}
@@ -147,7 +144,6 @@ function openNickPopup(title) {
 }
 
 function closePopup(popup) {
-	// popup.remove()
 	cl = popup.classList; 
 	cl.remove('popup')
 	cl.add('hide')
