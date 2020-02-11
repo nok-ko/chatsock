@@ -11,7 +11,7 @@ const checksum = this_script.src.split('?=')[1]
 socket.connect()
 // When we make a connection.
 socket.on('connect', (connect) => {
-	console.log('successful connection')
+	console.log('successssful connection')
 	// Send out our checksum, fetch new script if the server doesn't like it
 	 // TODO: fetch the new script without reloads 
 	 // TODO: and/or keep around the chat logs after a reload
@@ -193,6 +193,18 @@ socket.on('serverchat', serverChat)
 
 socket.on('connect_error', (err) => {
 	console.error(err)
+	let id = undefined
+	id = setInterval(
+		()=>{
+			console.log('connect_error: doing a reconnect attempt. socket disconnected?', socket.disconnected)
+			if (socket.disconnected) {
+				socket.connect()
+			} else {
+				clearInterval(id)
+			}
+		}, 2000
+	)
+
 })
 
 socket.on('connect_timeout', (err) => {
