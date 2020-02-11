@@ -27,9 +27,10 @@ io.on('connection', function(socket){
     
     // Call a function on the client if the nick is gucci
     socket.on('new-nick', (newNick, callback) => {
+        console.log(callback)
         let oldNick = nicks[socket.id]
         
-        let empty = '' ? newNick : '(to empty string)'
+        let empty = '' ? !newNick : '(to empty string)'
 
         if (oldNick){
             console.log(`[INFO] ${socket.short} tries to re-nick from ${oldNick} to ${newNick}`, empty)
