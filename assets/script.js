@@ -171,7 +171,7 @@ socket.on('connect_error', (err) => {
 })
 
 socket.on('connect_timeout', (err) => {
-	console.error('connection timed out')
+	console.error('connection timed out'+'\n'+err)
 })
 
 socket.on('disconnect', (reason) => {
@@ -218,7 +218,5 @@ socket.on('nick-please', () => {
 			}
 
 		})
-
-		
 	})
 })
