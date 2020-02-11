@@ -1,11 +1,22 @@
 let express = require('express')
-let app = express()
-let http = require('http').createServer(app)
-let io = require('socket.io')(http)
+const app = express()
+const http = require('http').createServer(app)
+const io = require('socket.io')(http)
+const fs = require('fs')
+const crypto = require('crypto')
 // let vorpal = require('vorpal')()
 
+let webpage = '<strong>yell at nokko if you see this!</strong>'
+
+function getChecksum(str, algorithm, encoding) {
+    return crypto
+      .createHash(algorithm || 'md5')
+      .update(str, 'utf8')
+      .digest(encoding || 'hex')
+  }
+
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/assets/index.html')
+    res.send(webpage)
 })
 
 app.use(express.static('assets')) // Scripts, Stylesheets & Such.
@@ -38,14 +49,20 @@ io.on('connection', function(socket){
             console.log(`[INFO] user ${socket.short} tries to nick to ${newNick}`)
         }
 
-        if (newNick) { // not empty; TODO: validate all the things
+        if (newNick) { // not empty; more validation in the future
             nicks[socket.id] = newNick
-            callback(true) // your nick is okay
+            // TODO: find a better way to make sure client has this function
+            // TODO: ask client for script checksum?? prevent caching somehow
+            if (callback !== undefined) {
+                callback(true) // your nick is okay
+            }
             io.emit('new-nick', oldNick, newNick)
             console.log(`[INFO] ${socket.short} successfully (re)nicked`)
         } else {
             console.log(`[INFO] ${socket.short} (re)nick rejected: empty string`)
-            callback('Do not use empty nicks.') // bad nick
+            if (callback !== undefined) {
+                callback('Do not use empty nicks.') // bad nick
+            }
             socket.emit('nick-please')
         }
     })
@@ -72,6 +89,10 @@ io.on('connection', function(socket){
 
 http.listen(3001, () => {
     console.log('listening on port 3001')
+
+    webpage = fs.readFileSync(__dirname + '/assets/index.html')
+    const checksum = getChecksum(webpage)
+    webpage = webpage.replace(/{{checksum}}/g, () => checksum)
 })
 
 function sendGlobalServerChat(msg) {

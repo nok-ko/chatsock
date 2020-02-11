@@ -34,7 +34,13 @@ function parseCommand(msg) {
 	function renick(args) {
 		newNick = args.join(' ') // we gotta send a string, not an array
 		console.log('renicking to', newNick)
-		socket.emit('new-nick', newNick)
+		socket.emit('new-nick', newNick, (reply) => {
+			if (reply === true) { // the server likes our new nick
+				console.log('=>[good nick]')
+			} else {
+				console.error(`=>[bad nick] '${reply}'`)
+			}
+		})
 	}
 	
 	// #endregion
