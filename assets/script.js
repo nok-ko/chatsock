@@ -1,7 +1,30 @@
 // "Use `const` whenever possible. It is always possible."
 // - Simon Peyton Jones
 const socket = io() 
+
+// First, get this script's checksum for later verification
+// The second script element on this page
+const this_script = document.querySelectorAll('script')[1]
+// In our src attribute, the checksum comes after the ?= query
+const checksum = this_script.src.split('?=')[1]
+// Then, connect
 socket.connect()
+// When we make a connection.
+socket.on('connect', (connect) => {
+	console.log('successful connection')
+	// Send out our checksum, fetch new script if the server doesn't like it
+	 // TODO: fetch the new script without reloads 
+	 // TODO: and/or keep around the chat logs after a reload
+	console.log(`[checksum:${checksum}]=>`)
+	socket.emit('checksum', checksum, (success) => {
+		if (!success) {
+			console.error('=>[checksum:mismatch!]')
+			location.reload()
+		} else {
+			console.log('=>[checksum:match]')
+		}
+	})
+});
 
 // Listen for message box submissions:
 document.querySelector('form').addEventListener('submit', function(e){
@@ -58,7 +81,6 @@ function parseCommand(msg) {
 
 // #region CHAT STUFF
 
-// TODO: possibly rename this function
 /**
  * Generic chat display function. 
  * This *displays* information from the server in the messagebox, it does not send chat messages.
@@ -66,12 +88,14 @@ function parseCommand(msg) {
  * @param  {String} msg - the message
  * @param  {Boolean} isSuper - whether the message should be rendered with the 'superchat' CSS class
  */
-function genericChat(nick, msg, isSuper) {
+function displayChat(nick, msg, isSuper) {
 	
 	let msgNode = document.createElement('li')
 	let shouldScroll = false
 	const mBox = document.querySelector('#messages')
 
+	// Don't create a nick element if we can't display the nick provided
+	// (i.e. empty strings, `undefined`)
 	if (nick) {
 		let nickNode = document.createElement('strong')
 		nickNode.innerText = nick
@@ -156,9 +180,9 @@ function closePopup(popup) {
 }
 
 // serverChat uses an empty nick, the server is eternal & has no name
-const serverChat = (msg) => { console.log('sChat:', msg); genericChat('', msg, true) }
+const serverChat = (msg) => { console.log('sChat:', msg); displayChat('', msg, true) }
 // userChat uses the nick of the recipient
-const userChat = (nick, msg) => { console.log('uChat:', msg); genericChat(nick, msg, false) }
+const userChat = (nick, msg) => { console.log('uChat:', msg); displayChat(nick, msg, false) }
 
 // A chat message arrives
 socket.on('chat', userChat)
@@ -167,17 +191,16 @@ socket.on('serverchat', serverChat)
 
 // #endregion CHAT STUFF
 
-// We make a connection.
-socket.on('connection', (connect) => {
-	console.log('successful connection')
-});
-
 socket.on('connect_error', (err) => {
 	console.error(err)
 })
 
 socket.on('connect_timeout', (err) => {
 	console.error('connection timed out'+'\n'+err)
+})
+
+socket.on('reconnect_attempt', (attemptNumber) => {
+	console.log('reconnecting, attempt #'+attemptNumber)
 })
 
 socket.on('disconnect', (reason) => {

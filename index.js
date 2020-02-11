@@ -8,13 +8,6 @@ const crypto = require('crypto')
 
 let webpage = '<strong>yell at nokko if you see this!</strong>'
 
-function getChecksum(str, algorithm, encoding) {
-    return crypto
-      .createHash(algorithm || 'md5')
-      .update(str, 'utf8')
-      .digest(encoding || 'hex')
-  }
-
 app.get('/', (req, res) => {
     res.send(webpage)
 })
@@ -85,14 +78,35 @@ io.on('connection', function(socket){
             socket.emit('nick-please')
         }
     })
+
+    socket.on('checksum', (checksum, callback) => {
+        if (checksum == script_checksum) { // Does the checksum match?
+            callback(true) // All good!
+        } else {
+            callback(false) // Wah! (Reloads the client)
+        }
+    } )
+
 })
 
 http.listen(3001, () => {
     console.log('listening on port 3001')
 
+    function getChecksum(str, algorithm, encoding) {
+        return crypto
+            .createHash(algorithm || 'md5')
+            .update(str, 'utf8')
+            .digest(encoding || 'hex')
+    }
+
+    // Send the webpage, but attach the script's checksum to the script reference in the page.
+    // This makes the client load the script anew when we release an update.
+    // (Of course, already-connected clients don't get this benefit.)
+    // TODO: verify that reconnecting clients have the same client script version
+
     webpage = String(fs.readFileSync(__dirname + '/assets/index.html'))
-    const checksum = getChecksum(webpage)
-    webpage = webpage.replace(/{{checksum}}/g, () => checksum)
+    script_checksum = getChecksum(fs.readFileSync(__dirname + '/assets/script.js'))
+    webpage = webpage.replace(/{{checksum}}/g, () => script_checksum)
 })
 
 function sendGlobalServerChat(msg) {
