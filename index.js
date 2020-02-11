@@ -90,7 +90,7 @@ io.on('connection', function(socket){
 http.listen(3001, () => {
     console.log('listening on port 3001')
 
-    webpage = fs.readFileSync(__dirname + '/assets/index.html')
+    webpage = String(fs.readFileSync(__dirname + '/assets/index.html'))
     const checksum = getChecksum(webpage)
     webpage = webpage.replace(/{{checksum}}/g, () => checksum)
 })
