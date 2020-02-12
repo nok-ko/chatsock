@@ -40,10 +40,10 @@ document.querySelector('form').addEventListener('submit', function(e){
 		console.log('chat:', msg)
 	}
 
-	clearMbox()
+	clearMessageBox()
 })
 // Clear the message box. (That is, the field where you type a message to send.)
-function clearMbox() {
+function clearMessageBox() {
 	document.querySelector('#m').value = '' // There may be a bug here.
 }
 
