@@ -1,3 +1,6 @@
+// Constants and all that junk.
+const HTTP_PORT = 80
+
 let express = require('express')
 const app = express()
 const http = require('http').createServer(app)
@@ -89,8 +92,8 @@ io.on('connection', function(socket){
 
 })
 
-http.listen(3001, () => {
-    console.log('listening on port 3001')
+http.listen(HTTP_PORT, () => {
+    console.log('listening on port', HTTP_PORT)
 
     function getChecksum(str, algorithm, encoding) {
         return crypto
