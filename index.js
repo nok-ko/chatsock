@@ -6,7 +6,7 @@ const fs = require('fs')
 const crypto = require('crypto')
 // let vorpal = require('vorpal')()
 
-let webpage = '<strong>yell at nokko if you see this!</strong>'
+let webpage = '<strong>This page left unintentionally blank. Please yell at nokko.</strong>'
 
 app.get('/', (req, res) => {
     res.send(webpage)
