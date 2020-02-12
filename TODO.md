@@ -6,8 +6,7 @@
 
 ### Features
 * nick collision
-* fix pleasenick bug
-  * reproduce pleasenick bug?
+* ~~fix pleasenick bug~~
 * put more things in grid 
   * nickname/text container
   * compose/send container

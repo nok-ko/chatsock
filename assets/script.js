@@ -6,7 +6,7 @@ const socket = io()
 // The second script element on this page
 const this_script = document.querySelectorAll('script')[1]
 // In our src attribute, the checksum comes after the ?= query
-const checksum = this_script.src.split('?=')[1]
+const checksum = this_script.src.split('?')[1]
 // Then, connect
 socket.connect()
 // When we make a connection.
