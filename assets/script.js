@@ -7,19 +7,19 @@ const socket = io()
 const this_script = document.querySelectorAll('script')[1]
 // In our src attribute, the checksum comes after the ?= query
 const checksum = this_script.src.split('?')[1]
-// Then, connect
+// Then, connect.
 socket.connect()
-// When we make a connection.
+// When we make a connection...
 socket.on('connect', (connect) => {
 	console.log('successssful connection')
 	// Send out our checksum, fetch new script if the server doesn't like it
-	 // TODO: fetch the new script without reloads
-	 // TODO: and/or keep around the chat logs after a reload
 	console.log(`[checksum:${checksum}]=>`)
 	socket.emit('checksum', checksum, (success) => {
 		if (!success) {
 			console.error('=>[checksum:mismatch!]')
 			location.reload()
+			// TODO: fetch the new script without reloads
+	 		// TODO: and/or keep around the chat logs after a reload
 		} else {
 			console.log('=>[checksum:match]')
 		}
@@ -76,6 +76,8 @@ function parseCommand(msg) {
 	console.log(args[0], args[0] in commands)
 	if (args[0] in commands){
 		commands[args[0]](args.slice(1))
+	} else {
+		displayChat('', `"!${args[0]}" is not a valid command!`, true)
 	}
 }
 
