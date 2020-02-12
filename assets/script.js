@@ -40,10 +40,10 @@ document.querySelector('form').addEventListener('submit', function(e){
 		console.log('chat:', msg)
 	}
 
-	clearMbox()
+	clearMessageBox()
 })
 // Clear the message box. (That is, the field where you type a message to send.)
-function clearMbox() {
+function clearMessageBox() {
 	document.querySelector('#m').value = '' // There may be a bug here.
 }
 
@@ -94,7 +94,7 @@ function displayChat(nick, msg, isSuper) {
 
 	let msgNode = document.createElement('li')
 	let shouldScroll = false
-	const mBox = document.querySelector('#messages')
+	const messageBox = document.querySelector('#messages')
 
 	// Don't create a nick element if we can't display the nick provided
 	// (i.e. empty strings, `undefined`)
@@ -114,10 +114,10 @@ function displayChat(nick, msg, isSuper) {
 	msgNode.appendChild(textNode)
 
 	// check if we're scrolled to the bottom
-	if (mBox.scrollHeight - mBox.clientHeight <= mBox.scrollTop + 1)
+	if (messageBox.scrollHeight - messageBox.clientHeight <= messageBox.scrollTop + 1)
 		shouldScroll = true
 
-	mBox.appendChild(msgNode)
+	messageBox.appendChild(msgNode)
 
 	if (shouldScroll)
 		msgNode.scrollIntoView()
