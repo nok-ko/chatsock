@@ -1,6 +1,6 @@
 // "Use `const` whenever possible. It is always possible."
 // - Simon Peyton Jones
-const socket = io() 
+const socket = io()
 
 // First, get this script's checksum for later verification
 // The second script element on this page
@@ -13,7 +13,7 @@ socket.connect()
 socket.on('connect', (connect) => {
 	console.log('successssful connection')
 	// Send out our checksum, fetch new script if the server doesn't like it
-	 // TODO: fetch the new script without reloads 
+	 // TODO: fetch the new script without reloads
 	 // TODO: and/or keep around the chat logs after a reload
 	console.log(`[checksum:${checksum}]=>`)
 	socket.emit('checksum', checksum, (success) => {
@@ -30,14 +30,14 @@ socket.on('connect', (connect) => {
 document.querySelector('form').addEventListener('submit', function(e){
 	e.preventDefault()    // Stop form from "actually" submitting
 	msg = document.querySelector('#m').value
-	
+
 	// Either do command stuff on the clientside before doing whatever is needed from the command,
 	// *or* just send a `chat` event to the server
 	if (msg.startsWith('!')){
 		parseCommand(msg)
 	} else {
 		socket.emit('chat', msg)
-		console.log('chat:', msg)   
+		console.log('chat:', msg)
 	}
 
 	clearMbox()
@@ -53,7 +53,7 @@ function clearMbox() {
  */
 function parseCommand(msg) {
 	// #region Commands that are later referenced in `commands` object:
-	
+
 	function renick(args) {
 		newNick = args.join(' ') // we gotta send a string, not an array
 		console.log('renicking to', newNick)
@@ -65,7 +65,7 @@ function parseCommand(msg) {
 			}
 		})
 	}
-	
+
 	// #endregion
 
 	const commands = {
@@ -82,14 +82,14 @@ function parseCommand(msg) {
 // #region CHAT STUFF
 
 /**
- * Generic chat display function. 
+ * Generic chat display function.
  * This *displays* information from the server in the messagebox, it does not send chat messages.
  * @param  {String} nick - the nick sending this message
  * @param  {String} msg - the message
  * @param  {Boolean} isSuper - whether the message should be rendered with the 'superchat' CSS class
  */
 function displayChat(nick, msg, isSuper) {
-	
+
 	let msgNode = document.createElement('li')
 	let shouldScroll = false
 	const mBox = document.querySelector('#messages')
@@ -101,22 +101,22 @@ function displayChat(nick, msg, isSuper) {
 		nickNode.innerText = nick
 		msgNode.appendChild(nickNode).classList.add('nick')
 	}
-	
+
 	let textNode = document.createElement('span')
 	textNode.classList.add('msg')
 	textNode.innerText = msg
-	
+
 	if (isSuper)
 		textNode.classList.add('superchat')
-	
+
 	msgNode.appendChild(textNode)
-	
+
 	// check if we're scrolled to the bottom
 	if (mBox.scrollHeight - mBox.clientHeight <= mBox.scrollTop + 1)
 		shouldScroll = true
-	
+
 	mBox.appendChild(msgNode)
-	
+
 	if (shouldScroll)
 		msgNode.scrollIntoView()
 }
@@ -141,25 +141,25 @@ function openNickPopup(title) {
 		titleElement.innerText = title
 
 		popup.appendChild(titleElement)
-		
+
 		const form = document.createElement('form')
 		const nickfield = document.createElement('input')
 		const nickerror = document.createElement('p')
 		const submit = document.createElement('button')
-	
+
 		form.classList.add('nick')
 		form.action = ""
-	
+
 		Object.assign(nickfield, {type:'text', autocomplete:'off', placeholder: 'somebody'})
 		nickerror.classList.add('nickerror')
 
 		submit.textContent = 'Submit nick!'
-	
+
 		const items = document.createDocumentFragment()
 		items.appendChild(nickfield)
 		items.appendChild(submit)
 		items.appendChild(nickerror)
-		
+
 		// chaining on the child. popup->form->items
 		popup.appendChild(form).appendChild(items)
 
@@ -174,7 +174,7 @@ function openNickPopup(title) {
 }
 
 function closePopup(popup) {
-	cl = popup.classList; 
+	cl = popup.classList;
 	cl.remove('popup')
 	cl.add('hide')
 }
@@ -193,14 +193,14 @@ socket.on('serverchat', serverChat)
 
 socket.on('connect_error', (err) => {
 	console.error(err)
-	let id = undefined
-	id = setInterval(
+	let interval = undefined
+	interval = setInterval(
 		()=>{
 			console.log('connect_error: doing a reconnect attempt. socket disconnected?', socket.disconnected)
 			if (socket.disconnected) {
 				socket.connect()
 			} else {
-				clearInterval(id)
+				clearInterval(interval)
 			}
 		}, 2000
 	)
@@ -236,7 +236,7 @@ socket.on('new-nick', (oldNick, newNick) => {
 	}
 })
 
-// Server asks us to provide a nickname. 
+// Server asks us to provide a nickname.
 // Happens on first join, re-join, and possibly on admin discretion.
 socket.on('nick-please', () => {
 	console.log('=>[nick-please]')
