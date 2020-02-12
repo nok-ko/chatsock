@@ -257,7 +257,6 @@ socket.on('nick-please', () => {
 				console.error(`=>[bad nick] '${reply}'`)
 				nickError(reply) // disappears in 2.5s
 			}
-
 		})
 	})
 })
