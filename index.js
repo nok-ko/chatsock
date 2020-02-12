@@ -109,10 +109,10 @@ http.listen(3001, () => {
     webpage = webpage.replace(/{{checksum}}/g, () => script_checksum)
 })
 
-function sendGlobalServerChat(msg) {
-    console.log(`[CHAT]: op: ${msg}`)
-    io.emit('serverchat', msg)
-}
+// function sendGlobalServerChat(msg) {
+//     console.log(`[CHAT]: op: ${msg}`)
+//     io.emit('serverchat', msg)
+// }
 
 // TODO: Replace vorpal with commander.js
 
