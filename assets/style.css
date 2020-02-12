@@ -41,7 +41,7 @@ form.chat > button {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 #messages li {
