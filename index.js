@@ -6,7 +6,7 @@ const fs = require('fs')
 const crypto = require('crypto')
 // let vorpal = require('vorpal')()
 
-let webpage = '<strong>yell at nokko if you see this!</strong>'
+let webpage = '<strong>This page left unintentionally blank. Please yell at nokko.</strong>'
 
 app.get('/', (req, res) => {
     res.send(webpage)
@@ -115,24 +115,3 @@ http.listen(3001, () => {
 // }
 
 // TODO: Replace vorpal with commander.js
-
-// vorpal
-//     .delimiter('op$')
-//     .show()
-
-// vorpal
-//     .command('say <message>', 'Sends a `serverchat` to the connected clients.')
-//     .action(function(args, callback) {
-//         this.log(args)
-//         io.emit('serverchat', args.message)
-//         callback()
-//     })
-
-// vorpal
-//     .mode('chat')
-//     .description('Enters the user into a server op chat session.')
-//     .delimiter('opchat:')
-//     .action(function(command, callback) {
-//         sendGlobalServerChat(command)
-//         callback()
-//     });
