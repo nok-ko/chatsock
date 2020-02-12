@@ -1,5 +1,5 @@
 // Constants and all that junk.
-const HTTP_PORT = 80
+const HTTP_PORT = 3001
 
 let express = require('express')
 const app = express()
