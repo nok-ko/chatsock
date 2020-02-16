@@ -1,0 +1,67 @@
+diff --git a/node_modules/@gd-com/utils/src/buffer/GdBuffer.js b/node_modules/@gd-com/utils/src/buffer/GdBuffer.js
+index 4e7b8ea..ffaef51 100644
+--- a/node_modules/@gd-com/utils/src/buffer/GdBuffer.js
++++ b/node_modules/@gd-com/utils/src/buffer/GdBuffer.js
+@@ -22,50 +22,62 @@ class GdBuffer {
+ 
+   putVar (data) {
+     this._buffer = this._internalPut(Put.putVar, data)
++    return this
+   }
+ 
+   put8 (data) {
+     this._buffer = this._internalPut(Put.put8, data)
++    return this
+   }
+ 
+   put16 (data) {
+     this._buffer = this._internalPut(Put.put16, data)
++    return this
+   }
+ 
+   put32 (data) {
+     this._buffer = this._internalPut(Put.put32, data)
++    return this
+   }
+ 
+   put64 (data) {
+     this._buffer = this._internalPut(Put.put64, data)
++    return this
+   }
+ 
+   putU8 (data) {
+     this._buffer = this._internalPut(Put.putU8, data)
++    return this
+   }
+ 
+   putU16 (data) {
+     this._buffer = this._internalPut(Put.putU16, data)
++    return this
+   }
+ 
+   putU32 (data) {
+     this._buffer = this._internalPut(Put.putU32, data)
++    return this
+   }
+ 
+   putU64 (data) {
+     this._buffer = this._internalPut(Put.putU64, data)
++    return this
+   }
+ 
+   putFloat (data) {
+     this._buffer = this._internalPut(Put.putFloat, data)
++    return this
+   }
+ 
+   putDouble (data) {
+     this._buffer = this._internalPut(Put.putDouble, data)
++    return this
+   }
+ 
+   putString (data) {
+     this._buffer = this._internalPut(Put.putString, data)
++    return this
+   }
+ 
+   getVar () {
